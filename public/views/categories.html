@@ -10,22 +10,37 @@
             <div class="form-group">
                 <label for="category-name">Enter name</label>
                 <input type="text" class="form-control" id="category-name" />
+                
+                <div class="invalid-feedback">
+                    Please enter a category name
+                </div>
             </div>
             <div class="form-group">
                 <label for="category-desc">Description</label>
                 <input type="text" class="form-control" id="category-desc" />
+                <div class="invalid-feedback">
+                    Please enter some short description for category
+                </div>
             </div>
             <div class="form-group">
                 <label for="category-thumbnail">Thumbnail</label>
                 <input type="file" class="form-control" id="category-thumbnail" />
+                <div class="invalid-feedback">
+                    Please choose a valid image thumbnail
+                </div>
             </div>
+
+            <div class="form-group">
+                <img id="selected-thumbnail" width="250" height="150" src="#" />
+            </div>
+
             <div class="form-group">
                 <div class="progress">
-                    <div class="progress-bar" style="width:0%">0%</div>
+                    <div class="progress-bar" id="upload-progress" style="width:0%">0%</div>
                 </div>
             </div>
             <div class="from-group">
-                <button type="button" class="btn btn-primary">Save</button>
+                <button id="save-category" type="button" class="btn btn-primary">Save</button>
             </div>
         </form>
         <div id="result">
@@ -38,3 +53,57 @@
     </div>
 
 </div>
+
+<script>
+    var validImageTypes = ["image/gif", "image/jpeg", "image/png"];
+
+    $("#selected-thumbnail").hide();
+
+    function previewThumbnail(thumbnail){
+        if(thumbnail.files && thumbnail.files[0]){
+            var reader = new FileReader(); 
+
+            reader.onload = function(e){
+                $("#selected-thumbnail").attr('src', e.target.result);
+                $("#selected-thumbnail").fadeIn();
+            }
+            reader.readAsDataURL(thumbnail.files[0]);
+        }
+    }
+
+    $("#category-thumbnail").change(function(){
+        previewThumbnail(this);
+    });
+
+    $("#save-category").click(function(){
+        $("#category-name").removeClass("is-invalid");
+        $("#category-desc").removeClass("is-invalid");
+        $("#category-thumbnail").removeClass("is-invalid");
+
+        var catname = $("#category-name").val();
+        var desc = $("#category-desc").val(); 
+        var thumbnail = $("#category-thumbnail").prop("files")[0];
+
+        if(!catname){
+            $("#category-name").addClass("is-invalid");
+            return; 
+        }
+
+        if(!desc){
+            $("#category-desc").addClass("is-invalid");
+            return; 
+        }
+
+        if(thumbnail == null){
+            $("#category-thumbnail").addClass("is-invalid");
+            return; 
+        }
+
+        if($.inArray(thumbnail["type"], validImageTypes)<0){
+            $("#category-thumbnail").addClass("is-invalid");
+            return; 
+        }
+
+        //upload the image and save category 
+    });
+</script>
