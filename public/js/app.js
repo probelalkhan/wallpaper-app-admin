@@ -3,9 +3,10 @@
     authDomain: "mywallpaperapp-4d06e.firebaseapp.com",
     databaseURL: "https://mywallpaperapp-4d06e.firebaseio.com",
     projectId: "mywallpaperapp-4d06e",
-    storageBucket: "",
+    storageBucket: "mywallpaperapp-4d06e.appspot.com",
     messagingSenderId: "1093675965929"
   };
+
   firebase.initializeApp(config);
 
     firebase.auth.Auth.Persistence.LOCAL; 
