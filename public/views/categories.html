@@ -6,7 +6,7 @@
 
     <div class="col-lg-5">
         <h4>Add new</h4>
-        <form>
+        <form id="category-form">
             <div class="form-group">
                 <label for="category-name">Enter name</label>
                 <input type="text" class="form-control" id="category-name" />
@@ -55,6 +55,7 @@
 </div>
 
 <script>
+
     var validImageTypes = ["image/gif", "image/jpeg", "image/png"];
 
     $("#selected-thumbnail").hide();
@@ -111,6 +112,7 @@
             if(snapshot.exists()){
                 $("#result").attr("class", "alert alert-danger");
                 $("#result").html("Category already exist");
+                resetForm();
             }else{
                 //1. upload the selected thumbnail to firebase storage
                 var name = thumbnail["name"];
@@ -127,7 +129,7 @@
                     function progress(snapshot){
                         var percentage = (snapshot.bytesTransferred / snapshot.totalBytes) * 100; 
 
-                        $("#upload-progress").html(percentage + "%");
+                        $("#upload-progress").html(Math.round(percentage) + "%");
                         $("#upload-progress").attr("style", "width:"+percentage + "%");
                     }, 
 
@@ -151,6 +153,7 @@
                                 $("#result").attr("class", "alert alert-success");
                                 $("#result").html("Category added");
                             }
+                            resetForm();
                         }); 
 
                     }
@@ -162,4 +165,12 @@
         });
 
     });
+
+    function resetForm(){
+       $("#category-form")[0].reset(); 
+       $("#selected-thumbnail").fadeOut();
+       $("#upload-progress").html("Completed");
+    }
+
+
 </script>
