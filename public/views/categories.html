@@ -50,6 +50,18 @@
 
     <div class="col-lg-7">
         <h4>Saved Categories</h4>
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Description</th>
+                    <th>Thumbnail</th>
+                </tr>
+            </thead>
+            <tbody id="categories">
+
+            </tbody>
+        </table>
     </div>
 
 </div>
@@ -172,5 +184,40 @@
        $("#upload-progress").html("Completed");
     }
 
+    var dbCategories = firebase.database().ref("categories");
+
+    dbCategories.on("value", function(categories){
+
+        if(categories.exists()){
+            var categorieshtml = ""; 
+            categories.forEach(function(category){
+                
+                categorieshtml += "<tr>";
+
+                //for category name
+                categorieshtml += "<td>";
+                categorieshtml += category.key;
+                categorieshtml += "</td>";
+
+                //for category description
+                categorieshtml += "<td>";
+                categorieshtml += category.val().desc;
+                categorieshtml += "</td>";
+                
+                //for category thumbnail
+                categorieshtml += "<td> <img width='250' height='150' src='";
+                categorieshtml += category.val().thumbnail;
+                categorieshtml += "' /></td>";
+                
+
+                categorieshtml += "</tr>";
+
+
+            });
+
+            $("#categories").html(categorieshtml);
+        }
+
+    });
 
 </script>
