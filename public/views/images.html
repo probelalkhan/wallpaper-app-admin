@@ -1,0 +1,114 @@
+<h2>Images</h2>
+<hr />
+
+<div class="row">
+    <div class="col-lg-3">
+
+        <h4>Add a Wallpaper</h4>
+        
+        <form id="image=form">
+
+            <div class="form-group">
+                <label for="category">Select Category</label>
+                <select id="category" class="form-control">
+
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="title">Title</label>
+                <input type="text" class="form-control" id="title" />
+                <div class="invalid-feedback">
+                    Please enter title 
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="desc">Description</label>
+                <input type="text" class="form-control" id="desc" />
+                <div class="invalid-feedback">
+                    Please enter description 
+                </div>                    
+            </div>
+
+            <div class="form-group">
+                <label for="wallpaper">Wallpaper</label>
+                <input type="file" class="form-control" id="wallpaper" />
+
+                <div class="invalid-feedback">
+                    Please choose a valid image
+                </div>
+            </div>
+
+            <div class="form-group">
+                <button type="button" id="btn-save" class="btn btn-primary">Save Wallpaper</button>
+            </div>
+
+        </form>
+
+    </div>
+
+    <div class="col-lg-9">
+        <img id="img-wallpaper" width="800" height="400" />
+    </div>
+</div>
+
+<script>
+    function previewWallpaper(thumbnail){
+        if(thumbnail.files && thumbnail.files[0]){
+            var reader = new FileReader(); 
+
+            reader.onload = function(e){
+                $("#img-wallpaper").attr('src', e.target.result);
+            }
+            reader.readAsDataURL(thumbnail.files[0]);
+        }
+    }
+
+    $("#wallpaper").change(function(){
+        previewWallpaper(this);
+    });
+
+    var dbCategories = firebase.database().ref("categories");
+
+    dbCategories.once("value").then(function(categories){
+
+        categories.forEach(function(category){
+            $("#category").append("<option value='"+category.key+"'>"+category.key+"</option>");     
+        });
+    });
+
+    var validImageTypes = ["image/gif", "image/jpeg", "image/png"];
+
+    $("#btn-save").click(function(){
+        $("#title").removeClass("is-invalid");
+        $("#desc").removeClass("is-invalid");
+        $("#wallpaper").removeClass("is-invalid");
+
+        var title = $("#title").val();
+        var desc = $("#desc").val(); 
+        var wallpaper = $("#wallpaper").prop("files")[0];
+
+        if(!title){
+            $("#title").addClass("is-invalid");
+            return; 
+        }
+
+        if(!desc){
+            $("#desc").addClass("is-invalid");
+            return; 
+        }
+
+        if(!wallpaper){
+            $("#wallpaper").addClass("is-invalid");
+            return; 
+        }
+
+        if($.inArray(wallpaper["type"], validImageTypes)<0){
+            $("#wallpaper").addClass("is-invalid");
+            return; 
+        }
+
+    });
+
+</script>
