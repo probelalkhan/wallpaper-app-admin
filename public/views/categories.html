@@ -150,24 +150,23 @@
                     }, 
 
                     function complete(){
-                        var thumbnailUrl = uploadTask.snapshot.downloadURL; 
-                        
-                        var cat = {
-                            "thumbnail": thumbnailUrl, 
-                            "desc": desc
-                        };
+                        uploadTask.snapshot.ref.getDownloadURL().then(function(downloadURL) {
+                            var cat = {
+                                "thumbnail": downloadURL, 
+                                "desc": desc
+                            };
 
-                        database.set(cat, function(err){
-                            if(err){
-                                $("#result").attr("class", "alert alert-danger");
-                                $("#result").html(err.message);
-                            }else{
-                                $("#result").attr("class", "alert alert-success");
-                                $("#result").html("Category added");
-                            }
-                            resetForm();
-                        }); 
-
+                            database.set(cat, function(err){
+                                if(err){
+                                    $("#result").attr("class", "alert alert-danger");
+                                    $("#result").html(err.message);
+                                }else{
+                                    $("#result").attr("class", "alert alert-success");
+                                    $("#result").html("Category added");
+                                }
+                                resetForm();
+                            }); 
+                        });
                     }
                 
                 );

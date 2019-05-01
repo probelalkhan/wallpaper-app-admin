@@ -138,21 +138,22 @@
             },
 
             function complete(){
-                var imageUrl = uploadTask.snapshot.downloadURL; 
-                var database = firebase.database().ref("images").child(category);
+                uploadTask.snapshot.ref.getDownloadURL().then(function(downloadURL) {
+                    var database = firebase.database().ref("images").child(category);
 
-                var imageid = database.push().key;
+                    var imageid = database.push().key;
 
-                var image = {
-                    "url": imageUrl, 
-                    "title": title, 
-                    "desc": desc 
-                };
+                    var image = {
+                        "url": downloadURL, 
+                        "title": title, 
+                        "desc": desc 
+                    };
 
-                database.child(imageid).set(image, function(err){
-                    alert("Image saved..");
-                    resetForm();
-                });
+                    database.child(imageid).set(image, function(err){
+                        alert("Image saved..");
+                        resetForm();
+                    });
+                }); 
             }
         );
 

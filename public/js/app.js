@@ -1,10 +1,10 @@
-  var config = {
-    apiKey: "AIzaSyCFMWH7d0R0R4UALFbTWEt-BxHVuHUcScA",
-    authDomain: "mywallpaperapp-4d06e.firebaseapp.com",
-    databaseURL: "https://mywallpaperapp-4d06e.firebaseio.com",
-    projectId: "mywallpaperapp-4d06e",
-    storageBucket: "mywallpaperapp-4d06e.appspot.com",
-    messagingSenderId: "1093675965929"
+    var config = {
+    apiKey: "AIzaSyCAounFTTC4skwmRrnO5kkxIVYKqoT0j14",
+    authDomain: "wallpaper-fad42.firebaseapp.com",
+    databaseURL: "https://wallpaper-fad42.firebaseio.com",
+    projectId: "wallpaper-fad42",
+    storageBucket: "wallpaper-fad42.appspot.com",
+    messagingSenderId: "20810722042"
   };
 
   firebase.initializeApp(config);
